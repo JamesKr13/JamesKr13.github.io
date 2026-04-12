@@ -3,52 +3,663 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Alex Chen</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>James Richards</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f5f5f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── left sidebar ── */
+    .sidebar {
+      width: 180px;
+      min-height: 100vh;
+      flex-shrink: 0;
+      background: #d4d0c8;
+      border-right: 2px solid;
+      border-color: #ffffff #808080 #808080 #ffffff;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-titlebar {
+      background: #000080;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .titlebar-buttons { display: flex; gap: 2px; }
+    .titlebar-btn {
+      width: 14px;
+      height: 12px;
+      background: #d4d0c8;
+      border-top: 1.5px solid #fff;
+      border-left: 1.5px solid #fff;
+      border-right: 1.5px solid #404040;
+      border-bottom: 1.5px solid #404040;
+      font-size: 8px;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .sidebar-avatar {
+      padding: 16px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 2px solid;
+      border-color: #808080 #fff #fff #808080;
+      flex-shrink: 0;
+    }
+    .avatar-pic {
+      width: 56px;
+      height: 56px;
+      background: #c0c0c0;
+      border-top: 2px solid #808080;
+      border-left: 2px solid #808080;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      color: #444;
+    }
+    .avatar-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      color: #000;
+      text-align: center;
+    }
+    .avatar-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: #444;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .sidebar-nav {
+      padding: 8px 0;
+      flex: 1;
+    }
+    .nav-section-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 6px 10px 3px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #000;
+      text-decoration: none;
+    }
+    .nav-item:hover { background: #000080; color: #fff; }
+    .nav-item.active { background: #000080; color: #fff; }
+    .nav-icon { font-size: 10px; width: 14px; text-align: center; flex-shrink: 0; }
+    .nav-divider {
+      height: 1px;
+      background: #808080;
+      border-bottom: 1px solid #fff;
+      margin: 4px 8px;
+    }
+
+    .sidebar-statusbar {
+      border-top: 2px solid;
+      border-color: #808080 #fff #fff #808080;
+      padding: 4px 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: #444;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .status-row { display: flex; justify-content: space-between; }
+    .status-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #00aa00;
+      display: inline-block;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+
+    /* ── main content ── */
+    .main {
+      flex: 1;
+      padding: 2.5rem;
+      max-width: 700px;
+    }
+
+    /* hero */
+    .hero { margin-bottom: 3rem; }
+    .prefix {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .prompt { color: #639922; font-weight: 500; }
+    .name {
+      font-size: 42px;
+      font-weight: 500;
+      color: #111;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      min-height: 1.2em;
+    }
+    .desc {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.7;
+      max-width: 520px;
+    }
+    .desc code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      background: #ebebeb;
+      padding: 1px 6px;
+      border-radius: 4px;
+      color: #111;
+      border: 0.5px solid #ddd;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 3px;
+      height: 0.85em;
+      background: #111;
+      margin-left: 4px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* 90s tabs */
+    .tabs-container { margin: 2rem 0 3rem; }
+    .tab-bar { display: flex; gap: 2px; flex-wrap: wrap; }
+    .tab {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 4px 12px 5px;
+      cursor: pointer;
+      background: #c0c0c0;
+      color: #000;
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-right: 2px solid #808080;
+      border-bottom: none;
+      user-select: none;
+    }
+    .tab.active {
+      background: #d4d0c8;
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-right: 2px solid #404040;
+      padding-bottom: 7px;
+      z-index: 1;
+    }
+    .tab-content-area {
+      background: #d4d0c8;
+      border: 2px solid;
+      border-color: #ffffff #808080 #808080 #ffffff;
+      padding: 1rem 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #000;
+      min-height: 60px;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .tab-content p { margin-bottom: 0.4rem; line-height: 1.6; }
+    .tab-content p::before { content: '> '; color: #808080; }
+
+    /* section label */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 0.5px;
+      background: #ddd;
+    }
+
+    /* projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .project-card {
+      background: #fff;
+      border: 0.5px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: border-color 0.15s;
+      text-decoration: none;
+      display: block;
+    }
+    .project-card:hover { border-color: #bbb; }
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    .project-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .pi-purple { background: #EEEDFE; color: #3C3489; }
+    .pi-teal   { background: #E1F5EE; color: #085041; }
+    .pi-blue   { background: #E6F1FB; color: #0C447C; }
+    .project-lang {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #999;
+    }
+    .project-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #111;
+      margin-bottom: 0.4rem;
+    }
+    .project-desc {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* writing */
+    .writing-list {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 3rem;
+    }
+    .writing-item {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 0.5px solid #e0e0e0;
+      gap: 1rem;
+      text-decoration: none;
+    }
+    .writing-item:first-child { border-top: 0.5px solid #e0e0e0; }
+    .writing-item:hover .writing-title { color: #333; }
+    .writing-title { font-size: 14px; color: #111; }
+    .writing-title em {
+      font-style: normal;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #999;
+      margin-left: 6px;
+    }
+    .writing-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #999;
+      white-space: nowrap;
+    }
+
+    /* now */
+    .now-block {
+      background: #fff;
+      border: 0.5px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .now-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 1rem;
+    }
+    .now-items { display: flex; flex-direction: column; gap: 0.6rem; }
+    .now-item {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      font-size: 13px;
+    }
+    .now-bullet {
+      font-family: 'JetBrains Mono', monospace;
+      color: #999;
+      font-size: 11px;
+    }
+    .now-text { color: #555; line-height: 1.5; }
+    .now-text strong { font-weight: 500; color: #111; }
+
+    /* footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      border-top: 0.5px solid #e0e0e0;
+    }
+    .footer-links { display: flex; gap: 1rem; }
+    .footer-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #999;
+      text-decoration: none;
+    }
+    .footer-link:hover { color: #555; }
+    .footer-built {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #bbb;
+    }
+
+    /* mobile */
+    @media (max-width: 640px) {
+      body { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        min-height: unset;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 2px solid;
+        border-color: #808080 #808080 #fff #808080;
+      }
+      .sidebar-avatar { flex-direction: row; align-items: center; gap: 12px; }
+      .sidebar-nav { display: flex; flex-wrap: wrap; padding: 4px; }
+      .nav-section-header { display: none; }
+      .nav-divider { display: none; }
+      .sidebar-statusbar { flex-direction: row; justify-content: space-between; }
+      .main { padding: 1.5rem; }
+    }
+    .link {
+        text-decoration: none;
+    }
+  </style>
 </head>
 <body>
 
-  <nav>
-    <span class="nav-name">~/alex-chen</span>
-    <div class="nav-links">
-      <a href="#projects">projects</a>
-      <a href="writing.html">writing</a>
-      <a href="cv.pdf">cv</a>
+  <aside class="sidebar">
+    <div class="sidebar-titlebar">
+      <span>james.exe</span>
+      <div class="titlebar-buttons">
+        <div class="titlebar-btn">_</div>
+        <div class="titlebar-btn">□</div>
+        <div class="titlebar-btn">×</div>
+      </div>
     </div>
-  </nav>
 
-  <main>
+    <div class="sidebar-avatar">
+      <div class="avatar-pic">JR</div>
+      <div>
+        <div class="avatar-name">James Richards</div>
+        <div class="avatar-sub">CS + Maths<br>VUW Honours</div>
+      </div>
+    </div>
 
-    <section class="hero">
-      <p class="prompt">$ whoami</p>
-      <h1>James Richards</h1>
-      <p class="desc">CS+Math</p>
-    </section>
+    <nav class="sidebar-nav">
+      <div class="nav-section-header">pages</div>
+      <a class="nav-item active" href="#top">
+        <span class="nav-icon">▶</span> home
+      </a>
+      <a class="nav-item" href="#projects">
+        <span class="nav-icon">▷</span> projects
+      </a>
+      <a class="nav-item" href="#writing">
+        <span class="nav-icon">▷</span> writing
+      </a>
+      <a class="nav-item" href="#now">
+        <span class="nav-icon">▷</span> now
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-section-header">files</div>
+      <a class="nav-item" href="cv.pdf">
+        <span class="nav-icon">📄</span> cv.pdf
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-section-header">links</div>
+      <a class="nav-item" href="https://github.com/" target="_blank">
+        <span class="nav-icon">⌥</span> github
+      </a>
+      <a class="nav-item" href="https://linkedin.com/" target="_blank">
+        <span class="nav-icon">⌥</span> linkedin
+      </a>
+      <a class="nav-item" href="mailto:you@example.com">
+        <span class="nav-icon">@</span> email
+      </a>
+    </nav>
 
-    <section id="projects">
-      <h2 class="section-label">projects</h2>
-      <!-- project cards -->
-    </section>
+    <div class="sidebar-statusbar">
+      <div class="status-row">
+        <span><span class="status-indicator"></span>online</span>
+        <span>VUW</span>
+      </div>
+      <div class="status-row" style="color:#888;">
+        <span>wellington, nz</span>
+      </div>
+    </div>
+  </aside>
 
-    <section id="writing">
-      <h2 class="section-label">writing</h2>
-      <!-- writing list -->
-    </section>
+  <main class="main" id="top">
 
-    <section id="now">
-      <h2 class="section-label">now</h2>
-      <!-- now block -->
-    </section>
+    <div class="hero">
+      <div class="prefix"><span class="prompt">$</span> whoami</div>
+      <h1 class="name" id="hero-name"></h1>
+      <p class="desc">
+        CS + Maths at Victoria University of Wellington. Honours in mathematics,
+        focusing on <code>numerical methods</code> for dynamical systems.
+      </p>
+    </div>
+
+    <div class="tabs-container">
+      <div class="tab-bar">
+        <div class="tab active" onclick="switchTab(this, 'interests')">interests.txt</div>
+        <div class="tab" onclick="switchTab(this, 'tools')">tools.exe</div>
+        <div class="tab" onclick="switchTab(this, 'status')">status.log</div>
+      </div>
+      <div class="tab-content-area">
+        <div class="tab-content active" id="tab-interests">
+          <p>numerical methods for dynamical systems</p>
+          <p>ODEs / PDEs (stiff solvers)</p>
+          <p>scientific computing</p>
+          <p>computational linear algebra</p>
+        </div>
+        <div class="tab-content" id="tab-tools">
+          <p>Python · NumPy · SciPy</p>
+          <p>Rust</p>
+          <p>Java</p>
+          <p>Javascript</p>
+          <p>HTML and CSS</p>
+          <p>LaTeX</p>
+        </div>
+        <div class="tab-content" id="tab-status">
+          <p>honours year @ VUW</p>
+          <p>thesis: TBD</p>
+          <p>coffee: critically low</p>
+          <p>vim motions: slowly improving</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label" id="projects">projects</div>
+    <div class="projects-grid">
+      <a class="link" href="https://github.com/JamesKr13/Monte-Carlo-Stock-Portfolio"><div class="project-card">
+        <div class="project-top">
+          <div class="project-icon pi-purple">$</div>
+          <span class="project-lang">Python · SciPy</span>
+        </div>
+        <div class="project-title">Monte Carlo Portfolio Optimisation</div>
+        <div class="project-desc">Simple exercise in using Sharpe's ratio to optimise a portfolio's weightage after running a Monte Carlo with general Brownian motion.</div>
+      </div>
+    </a>
+     <a class="link" href="https://github.com/JamesKr13/Bevy-Map-Gen">
+      <div class="project-card">
+        <div class="project-top">
+          <div class="project-icon pi-teal">🦀</div>
+          <span class="project-lang">Rust</span>
+        </div>
+        <div class="project-title">Bevy Noise-based Terrain Generation</div>
+        <div class="project-desc">Terrain generation using the Rust library Bevy. Compounded noise to simulate terrain shapes.</div>
+      </div>
+    </a>
+    <a class="link" href="https://github.com/JamesKr13/Chaos-An-introduction-to-Dynamical-Systems-Labs">
+      <div class="project-card">
+        <div class="project-top">
+          <div class="project-icon pi-blue">λ</div>
+          <span class="project-lang">Python · Jupyter</span>
+        </div>
+        <div class="project-title">Chaos — Introduction to Dynamical Systems</div>
+        <div class="project-desc">Computer exercises from the textbook of the same name. Taught me the basics of chaos in dynamical systems for my honours research.</div>
+      </div>
+      </a>
+    </div>
+
+    <div class="section-label" id="writing">writing</div>
+    <div class="writing-list">
+      <a class="writing-item" href="#">
+        <span class="writing-title">Understanding ODEs <em>notes</em></span>
+        <span class="writing-meta">Mar 2025</span>
+      </a>
+      <a class="writing-item" href="#">
+        <span class="writing-title">Current State of Honours — Notes on Collocation Methods <em>essay</em></span>
+        <span class="writing-meta">Apr 2026</span>
+      </a>
+      <a class="writing-item" href="https://github.com/JamesKr13/MATH324-Cryptography-and-Coding-code-snippets">
+        <span class="writing-title">MATH324 Cryptography and Coding: code snippets<em>tools</em></span>
+        <span class="writing-meta">Aug 2024</span>
+      </a>
+    </div>
+
+    <div class="section-label" id="now">now</div>
+    <div class="now-block">
+      <div class="now-header">// last updated april 2026</div>
+      <div class="now-items">
+        <div class="now-item">
+          <span class="now-bullet">→</span>
+          <span class="now-text">Working on <strong>honours thesis</strong> in numerical methods</span>
+        </div>
+        <div class="now-item">
+          <span class="now-bullet">→</span>
+          <span class="now-text">Questioning why the <strong>code is not working</strong></span>
+        </div>
+        <div class="now-item">
+          <span class="now-bullet">→</span>
+          <span class="now-text">Reading something interesting about <strong>dynamical systems</strong></span>
+        </div>
+        <div class="now-item">
+          <span class="now-bullet">→</span>
+          <span class="now-text">Thinking about what to do <strong>after honours</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <a class="footer-link" href="https://github.com/JamesKr13">github</a>
+        <a class="footer-link" href="https://www.linkedin.com/in/james-richards-637a18219/">linkedin</a>
+        <a class="footer-link" href="mailto:jamesckrichards@gmail.com">email</a>
+      </div>
+      <div class="footer-built">built with vim + ennui</div>
+    </footer>
 
   </main>
 
-  <footer>
-    <div class="footer-links">
-      <a href="https://github.com/alexchen">github</a>
-      <a href="mailto:alex@mit.edu">email</a>
-    </div>
-    <span>built with vim + ennui</span>
-  </footer>
+  <script>
+    function switchTab(el, id) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('tab-' + id).classList.add('active');
+    }
+
+    (function () {
+      const el = document.getElementById('hero-name');
+      const text = 'James Richards';
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor';
+      let i = 0;
+      function type() {
+        if (i <= text.length) {
+          el.textContent = text.slice(0, i);
+          el.appendChild(cursor);
+          i++;
+          setTimeout(type, i === 1 ? 400 : 85);
+        }
+      }
+      type();
+    })();
+
+    const sections = ['top', 'projects', 'writing', 'now'];
+    const navItems = document.querySelectorAll('.nav-item');
+    const hrefs = ['#top', '#projects', '#writing', '#now'];
+
+    window.addEventListener('scroll', () => {
+      let current = 'top';
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 120) current = id;
+      });
+      navItems.forEach((item, i) => {
+        item.classList.toggle('active', hrefs[i] === '#' + current);
+      });
+    });
+  </script>
 
 </body>
 </html>
